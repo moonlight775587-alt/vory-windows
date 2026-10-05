@@ -1,0 +1,83 @@
+<Window x:Class="VoryWindows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Vory" Width="1280" Height="820" MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 503 restart-required banner -->
+        <Border Grid.Row="0" Background="#4A2E12" BorderBrush="{DynamicResource WarningBrush}"
+                BorderThickness="0,0,0,1" Padding="12,8">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RestartRequired}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="⚠ " Foreground="{DynamicResource WarningBrush}" FontSize="14"/>
+                <TextBlock Text="Restart required — " FontWeight="SemiBold" Foreground="White"/>
+                <TextBlock Text="{Binding RestartDetail}" Foreground="White" Margin="0,0,12,0"/>
+                <Button Content="Update Hermes" Command="{Binding UpdateHermesCommand}" Margin="0,0,6,0"/>
+                <Button Content="Restart gateway" Command="{Binding RestartGatewayCommand}"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="{Binding SidebarWidth}"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- left rail -->
+            <Border Grid.Column="0" Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Margin="0,8,0,0">
+                        <Button Content="⌂" FontSize="20" Style="{StaticResource GhostButton}"
+                                ToolTip="Home" Margin="4" Padding="8"
+                                Command="{Binding NavigateCommand}" CommandParameter="Home"/>
+                        <Button Content="💬" FontSize="20" Style="{StaticResource GhostButton}"
+                                ToolTip="Chats" Margin="4" Padding="8"
+                                Command="{Binding NavigateCommand}" CommandParameter="Chats"/>
+                        <Button Content="🤖" FontSize="20" Style="{StaticResource GhostButton}"
+                                ToolTip="Bots" Margin="4" Padding="8"
+                                Command="{Binding NavigateCommand}" CommandParameter="Bots"/>
+                        <Button Content="📁" FontSize="20" Style="{StaticResource GhostButton}"
+                                ToolTip="Files" Margin="4" Padding="8"
+                                Command="{Binding NavigateCommand}" CommandParameter="Files"/>
+                        <Button Content="⚙" FontSize="20" Style="{StaticResource GhostButton}"
+                                ToolTip="Settings" Margin="4" Padding="8"
+                                Command="{Binding NavigateCommand}" CommandParameter="Settings"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Margin="0,0,0,12" HorizontalAlignment="Center">
+                        <Ellipse x:Name="ConnDot" Width="12" Height="12" Fill="{DynamicResource DangerBrush}"
+                                 ToolTip="Connection status"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- sidebar (chat list) -->
+            <Border Grid.Column="1" Background="{DynamicResource BackgroundBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,1,0">
+                <ContentControl Content="{Binding Sidebar}"/>
+            </Border>
+
+            <!-- main content -->
+            <ContentControl Grid.Column="2" Content="{Binding Content}"/>
+        </Grid>
+    </Grid>
+</Window>
