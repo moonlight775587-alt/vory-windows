@@ -75,6 +75,8 @@ namespace VoryWindows.ViewModels
                 if (e.PropertyName == nameof(AppState.RestartRequired)
                     || e.PropertyName == nameof(AppState.RestartDetail))
                     OnPropertyChanged(e.PropertyName);
+                if (e.PropertyName == nameof(AppState.ActiveGateway))
+                    OnPropertyChanged(nameof(ActiveGatewayName));
             };
             Home = new HomeViewModel(state, this);
             Chats = new ChatsViewModel(state, this);
@@ -108,7 +110,11 @@ namespace VoryWindows.ViewModels
         }
 
         public bool RestartRequired { get { return _state.RestartRequired; } }
-        public string RestartDetail { get { return _state.RestartDetail; } }
+
+        public string ActiveGatewayName
+        {
+            get { return _state.ActiveGateway != null ? _state.ActiveGateway.Name : "No gateway"; }
+        }        public string RestartDetail { get { return _state.RestartDetail; } }
         public AsyncRelayCommand UpdateHermesCommand { get; }
         public AsyncRelayCommand RestartGatewayCommand { get; }
 
