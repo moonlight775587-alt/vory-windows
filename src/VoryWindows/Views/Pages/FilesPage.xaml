@@ -1,0 +1,54 @@
+<UserControl x:Class="VoryWindows.Views.Pages.FilesPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             AllowDrop="True" Drop="OnDrop" DragOver="OnDragOver">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Files" FontSize="26" FontWeight="Bold" Margin="0,0,0,12"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
+            <Button Content="↑ Up" Command="{Binding UpCommand}" Margin="0,0,6,0"/>
+            <TextBlock Text="{Binding CurrentPath, StringFormat='/{0}'}" VerticalAlignment="Center"
+                       FontFamily="Consolas" Margin="0,0,12,0"/>
+            <Button Content="⟳ Refresh" Command="{Binding RefreshCommand}" Margin="0,0,6,0"/>
+            <Button Content="⬆ Upload" Command="{Binding UploadCommand}" Margin="0,0,6,0"/>
+            <CheckBox Content="Show hidden" IsChecked="{Binding ShowHidden}" VerticalAlignment="Center"
+                      Checked="Hidden_Toggled" Unchecked="Hidden_Toggled"/>
+        </StackPanel>
+
+        <ListView Grid.Row="2" ItemsSource="{Binding Items}" x:Name="FileList"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="320">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📁 " Visibility="Collapsed" x:Name="DirIcon"/>
+                                    <TextBlock Text="📄 " x:Name="FileIcon"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </StackPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsDirectory}" Value="True">
+                                        <Setter TargetName="DirIcon" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="FileIcon" Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Size" Width="100" DisplayMemberBinding="{Binding Size}"/>
+                    <GridViewColumn Header="Modified" Width="180" DisplayMemberBinding="{Binding Modified}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBlock Grid.Row="3" Text="{Binding Status}" Foreground="{DynamicResource MutedBrush}" Margin="0,8,0,0"/>
+    </Grid>
+</UserControl>
