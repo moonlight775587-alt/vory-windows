@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <LangVersion>7.3</LangVersion>
+    <AssemblyName>VoryWindows</AssemblyName>
+    <RootNamespace>VoryWindows</RootNamespace>
+    <Version>0.1.0</Version>
+    <Description>Vory for Windows - remote client for a self-hosted Hermes Agent gateway</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+</Project>
